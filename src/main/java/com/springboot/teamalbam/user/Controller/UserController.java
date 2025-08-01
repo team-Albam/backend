@@ -14,9 +14,9 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/api/v1/main")
-    public String entry(@CookieValue(value = "UUID", required = false) String uuidValue, HttpServletResponse response) {
+    public int entry(@CookieValue(value = "UUID", required = false) String uuidValue, HttpServletResponse response) {
         if (uuidValue != null && !uuidValue.isEmpty()) {
-            return "이미 존재하는 UUID가 있습니다.";
+            return 0;
         } else {
             User user = new User();
             userRepository.save(user);
@@ -24,8 +24,7 @@ public class UserController {
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 7); // 7일간 유지
             response.addCookie(cookie);
-
-            return "UUID 쿠키가 생성되었습니다.";
+            return 1;
         }
     }
 
