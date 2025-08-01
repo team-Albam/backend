@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -50,6 +51,14 @@ public class FileService {
         } catch (IOException e) {
             throw new RuntimeException("파일 삭제 실패: " + fileId, e);
         }
+    }
+
+    public File getFileById(String fileId) {
+        Path targetPath = Paths.get(System.getProperty("user.dir"), "uploads").resolve(fileId);
+        if (!Files.exists(targetPath)) {
+            throw new RuntimeException("파일이 존재하지 않음: " + fileId);
+        }
+        return targetPath.toFile();
     }
 
 }
