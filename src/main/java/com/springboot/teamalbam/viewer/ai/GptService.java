@@ -66,5 +66,38 @@ public class GptService {
 
         return "요약 실패";
     }
+
+    public String convertToEasyText(String text) {
+        if (text == null || text.trim().isEmpty()) return "변환할 내용이 없습니다.";
+
+        WebClient client = WebClient.builder()
+                .baseUrl("https://api.openai.com/v1")
+                .defaultHeader("Authorization", "Bearer " + apiKey)
+                .build();
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", "gpt-3.5-turbo");
+
+        List<Map<String, String>> messages = new ArrayList<>();
+        messages.add(Map.of("role", "system", "content", "다음 텍스트를 난독증이 있는 사람도 이해할 수 있도록, 어려운 단어를 아이들도 이해할 수 있게 쉽게 바꾸고 문장을 풀어서 설명해줘. 대신 요약은 절대 하지 말고 있는 그대로의 텍스트들을 어린 아이들도 이해할 수 있게 단어를 쉽게 문장으로 풀어서 최대한 길게 적어줘. 대답은 하지 말고 바꾼 문장만 존댓말(~습니다)로 출력해."));
+        messages.add(Map.of("role", "user", "content", text));
+
+        requestBody.put("messages", messages);
+        requestBody.put("temperature", 0.7);
+
+        return client.post()
+                .uri("/chat/completions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .map(response -> {
+                    List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
+                    Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
+                    return (String) message.get("content");
+                })
+                .block();
+    }
+
 }
 

@@ -1,4 +1,4 @@
-package com.springboot.teamalbam.viewer.ai;
+package com.springboot.teamalbam.viewer.ai.summary;
 
 import com.springboot.teamalbam.viewer.file.FileService;
 import lombok.RequiredArgsConstructor;

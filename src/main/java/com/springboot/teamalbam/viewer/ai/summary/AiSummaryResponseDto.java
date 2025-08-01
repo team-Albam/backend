@@ -1,4 +1,4 @@
-package com.springboot.teamalbam.viewer.ai;
+package com.springboot.teamalbam.viewer.ai.summary;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class AiSummaryResponseDto {
-    private String summary;
+    private String result;
 }
