@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name = "acc_user")
 @ToString
 public class User {
 
@@ -18,8 +19,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String uuid;
 
+    @Column
     private int attemptsLeft = 3;
 
     public User() {

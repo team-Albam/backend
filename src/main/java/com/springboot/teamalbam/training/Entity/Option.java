@@ -9,8 +9,10 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@Table(name = "option")
 public class Option {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
